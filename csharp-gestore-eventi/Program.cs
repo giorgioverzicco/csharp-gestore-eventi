@@ -7,6 +7,11 @@ PrintTotalEvents(eventProgrammer);
 PrintListOfEvents(eventProgrammer);
 PrintEventsListFromDate(eventProgrammer);
 
+var conference = CreateConference();
+eventProgrammer?.Add(conference!);
+Console.WriteLine("There's the list with the conference:");
+PrintListOfEvents(eventProgrammer);
+
 /*
 var newEvent = CreateEvent();
 var canReserveSeats = ReserveSeats(newEvent);
@@ -161,6 +166,47 @@ void PrintReservedAndRemainingSeats(Event? theEvent)
     Console.WriteLine($"Number of reserved seats: {theEvent?.ReservedSeats}");
     Console.WriteLine($"Number of free seats: {theEvent?.RemainingSeats}");
     Console.WriteLine();
+}
+
+Conference? CreateConference()
+{
+    var retry = false;
+    Conference? conference = null;
+
+    do
+    {
+        try
+        {
+            Console.WriteLine("Please, enter the conference details:");
+
+            Console.Write("Title: ");
+            var title = Console.ReadLine()!;
+
+            Console.Write("Date (dd/mm/yyyy): ");
+            var date = DateTime.Parse(Console.ReadLine()!);
+
+            Console.Write("Max Seats: ");
+            var maxSeats = Convert.ToInt32(Console.ReadLine());
+            
+            Console.Write("Speaker: ");
+            var speaker = Console.ReadLine()!;
+            
+            Console.Write("Price: ");
+            var price = Convert.ToDouble(Console.ReadLine());
+        
+            conference = new Conference(title, date, maxSeats, speaker, price);
+            retry = false;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+            Console.WriteLine("Try again.");
+            Console.WriteLine();
+            retry = true;
+        }
+    } while (retry);
+
+    return conference;
 }
 
 Event? CreateEvent()

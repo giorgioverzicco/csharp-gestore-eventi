@@ -74,6 +74,7 @@ public class Event
     }
 
     public int RemainingSeats => _maxSeats - _reservedSeats;
+    public string FormattedDate => $"{Date:dd/MM/yyyy}";
 
     public Event(string title, DateTime date, int maxSeats)
     {
@@ -115,7 +116,7 @@ public class Event
 
     public override string ToString()
     {
-        return $"{Date:dd/MM/yyyy} - {Title}";
+        return $"{FormattedDate} - {Title}";
     }
 
     public override int GetHashCode()
