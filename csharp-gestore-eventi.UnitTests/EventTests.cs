@@ -64,4 +64,66 @@ public class EventTests
             .Throw<InvalidOperationException>()
             .WithMessage("You cannot reserve seats in a past event.");
     }
+
+    [Test]
+    [TestCase(15, 5, 10)]
+    [TestCase(10, 2, 8)]
+    [TestCase(30, 30, 0)]
+    public void CancelSeats_ShouldDecreaseReservedSeats_WhenInputIsValid(
+        int reservedSeats, 
+        int seatsToCancel, 
+        int expected)
+    {
+        _sut.ReserveSeats(reservedSeats);
+        
+        _sut.CancelSeats(seatsToCancel);
+
+        _sut.ReservedSeats.Should().Be(expected);
+    }
+    
+    [Test]
+    [TestCase(15, 16)]
+    [TestCase(10, 15)]
+    [TestCase(30, 50)]
+    public void CancelSeats_ShouldThrowException_WhenSeatsToCancelAreOverMaximumSeats(
+        int reservedSeats, 
+        int seatsToCancel)
+    {
+        _sut.ReserveSeats(reservedSeats);
+        
+        Action action = () => _sut.CancelSeats(seatsToCancel);
+
+        action
+            .Should()
+            .Throw<InvalidOperationException>()
+            .WithMessage("Negative numbers are not allowed.");
+    }
+    
+    [Test]
+    public void CancelSeats_ShouldThrowException_WhenEventIsAlreadyOver()
+    {
+        var sut = new Event("DummyTitle", DateTime.Parse("2019/12/10 00:00:00"), 30);
+        var seatsToCancel = 5;
+        
+        Action action = () => sut.CancelSeats(seatsToCancel);
+
+        action
+            .Should()
+            .Throw<InvalidOperationException>()
+            .WithMessage("You cannot cancel seats in a past event.");
+    }
+    
+    [Test]
+    [TestCase(0)]
+    [TestCase(-1)]
+    [TestCase(-12)]
+    public void CancelSeats_ShouldThrowException_WhenNegativesOrZeroArePassed(int seatsToCancel)
+    {
+        Action action = () => _sut.CancelSeats(seatsToCancel);
+
+        action
+            .Should()
+            .Throw<InvalidOperationException>()
+            .WithMessage("You must provide a positive number of seats.");
+    }
 }

@@ -61,7 +61,7 @@ public class Event
             {
                 throw new InvalidOperationException("Negative numbers are not allowed.");
             }
-
+            
             if (value > _maxSeats)
             {
                 throw new InvalidOperationException("The maximum seats capacity is been reached.");
@@ -81,7 +81,7 @@ public class Event
 
     public void ReserveSeats(int seatsToReserve)
     {
-        if (Date < DateTime.Now)
+        if (IsEventOver())
         {
             throw new InvalidOperationException("You cannot reserve seats in a past event.");
         }
@@ -92,5 +92,25 @@ public class Event
         }
         
         ReservedSeats += seatsToReserve;
+    }
+
+    public void CancelSeats(int seatsToCancel)
+    {
+        if (IsEventOver())
+        {
+            throw new InvalidOperationException("You cannot cancel seats in a past event.");
+        }
+        
+        if (seatsToCancel <= 0)
+        {
+            throw new InvalidOperationException("You must provide a positive number of seats.");
+        }
+        
+        ReservedSeats -= seatsToCancel;
+    }
+
+    private bool IsEventOver()
+    {
+        return Date < DateTime.Now;
     }
 }
