@@ -73,6 +73,8 @@ public class Event
         }
     }
 
+    public int RemainingSeats => _maxSeats - _reservedSeats;
+
     public Event(string title, DateTime date, int maxSeats)
     {
         Title = title;

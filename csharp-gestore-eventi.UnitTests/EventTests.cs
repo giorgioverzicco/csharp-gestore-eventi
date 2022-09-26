@@ -137,4 +137,18 @@ public class EventTests
 
         sut.ToString().Should().Be(expected);
     }
+
+    [Test]
+    [TestCase(10, 5, 5)]
+    [TestCase(30, 20, 10)]
+    [TestCase(3, 2, 1)]
+    public void RemainingSeats_ShouldReturnRemainingSeats_WhenInvoked(int maxSeats, int seatsToReserve, int expected)
+    {
+        var sut = new Event(_sut.Title, _sut.Date, maxSeats);
+        
+        sut.ReserveSeats(seatsToReserve);
+        var remainingSeats = sut.RemainingSeats;
+
+        remainingSeats.Should().Be(expected);
+    }
 }
