@@ -13,7 +13,7 @@ public class Event
         {
             if (string.IsNullOrEmpty(value))
             {
-                throw new ArgumentNullException(nameof(value), "You must provide a title.");
+                throw new ArgumentException("You must provide a title.");
             }
 
             _title = value;
