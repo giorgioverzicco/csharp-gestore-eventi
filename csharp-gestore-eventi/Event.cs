@@ -1,3 +1,5 @@
+using csharp_gestore_eventi.Exceptions;
+
 namespace csharp_gestore_eventi;
 
 public class Event
@@ -43,7 +45,7 @@ public class Event
         {
             if (value <= 0)
             {
-                throw new InvalidOperationException("You must provide at least one seat.");
+                throw new InvalidSeatsException("You must provide at least one seat.");
             }
 
             _maxSeats = value;
@@ -59,12 +61,12 @@ public class Event
         {
             if (value < 0)
             {
-                throw new InvalidOperationException("Negative numbers are not allowed.");
+                throw new InvalidSeatsException("Seats cannot be negatives.");
             }
             
             if (value > _maxSeats)
             {
-                throw new InvalidOperationException("The maximum seats capacity is been reached.");
+                throw new InvalidSeatsException("The maximum seats capacity is been reached.");
             }
 
             _reservedSeats = value;
@@ -83,12 +85,12 @@ public class Event
     {
         if (IsEventOver())
         {
-            throw new InvalidOperationException("You cannot reserve seats in a past event.");
+            throw new EventOverException("You cannot reserve seats in a past event.");
         }
         
         if (seatsToReserve <= 0)
         {
-            throw new InvalidOperationException("You must provide a positive number of seats.");
+            throw new InvalidSeatsException("You must provide a positive number of seats.");
         }
         
         ReservedSeats += seatsToReserve;
@@ -98,12 +100,12 @@ public class Event
     {
         if (IsEventOver())
         {
-            throw new InvalidOperationException("You cannot cancel seats in a past event.");
+            throw new EventOverException("You cannot cancel seats in a past event.");
         }
         
         if (seatsToCancel <= 0)
         {
-            throw new InvalidOperationException("You must provide a positive number of seats.");
+            throw new InvalidSeatsException("You must provide a positive number of seats.");
         }
         
         ReservedSeats -= seatsToCancel;

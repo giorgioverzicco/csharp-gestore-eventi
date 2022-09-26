@@ -1,3 +1,4 @@
+using csharp_gestore_eventi.Exceptions;
 using FluentAssertions;
 
 namespace csharp_gestore_eventi.UnitTests;
@@ -33,7 +34,7 @@ public class EventTests
 
         action
             .Should()
-            .Throw<InvalidOperationException>()
+            .Throw<InvalidSeatsException>()
             .WithMessage("The maximum seats capacity is been reached.");
     }
     
@@ -47,7 +48,7 @@ public class EventTests
 
         action
             .Should()
-            .Throw<InvalidOperationException>()
+            .Throw<InvalidSeatsException>()
             .WithMessage("You must provide a positive number of seats.");
     }
     
@@ -61,7 +62,7 @@ public class EventTests
 
         action
             .Should()
-            .Throw<InvalidOperationException>()
+            .Throw<EventOverException>()
             .WithMessage("You cannot reserve seats in a past event.");
     }
 
@@ -95,8 +96,8 @@ public class EventTests
 
         action
             .Should()
-            .Throw<InvalidOperationException>()
-            .WithMessage("Negative numbers are not allowed.");
+            .Throw<InvalidSeatsException>()
+            .WithMessage("Seats cannot be negatives.");
     }
     
     [Test]
@@ -109,7 +110,7 @@ public class EventTests
 
         action
             .Should()
-            .Throw<InvalidOperationException>()
+            .Throw<EventOverException>()
             .WithMessage("You cannot cancel seats in a past event.");
     }
     
@@ -123,7 +124,7 @@ public class EventTests
 
         action
             .Should()
-            .Throw<InvalidOperationException>()
+            .Throw<InvalidSeatsException>()
             .WithMessage("You must provide a positive number of seats.");
     }
 
