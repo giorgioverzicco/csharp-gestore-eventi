@@ -109,6 +109,11 @@ public class Event
         ReservedSeats -= seatsToCancel;
     }
 
+    public override string ToString()
+    {
+        return $"{Date:dd/MM/yyyy} - {Title}";
+    }
+
     private bool IsEventOver()
     {
         return Date < DateTime.Now;

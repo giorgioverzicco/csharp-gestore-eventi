@@ -126,4 +126,14 @@ public class EventTests
             .Throw<InvalidOperationException>()
             .WithMessage("You must provide a positive number of seats.");
     }
+
+    [Test]
+    [TestCase("Event1", "2022/10/25 00:00:00", "25/10/2022 - Event1")]
+    [TestCase("TestEvent", "2030/03/10 00:00:00", "10/03/2030 - TestEvent")]
+    public void ToString_ShouldReturnDateAndTitle_WhenInvoked(string title, string date, string expected)
+    {
+        var sut = new Event(title, DateTime.Parse(date), 30);
+
+        sut.ToString().Should().Be(expected);
+    }
 }
