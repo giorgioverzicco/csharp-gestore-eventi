@@ -118,6 +118,16 @@ public class Event
         return $"{Date:dd/MM/yyyy} - {Title}";
     }
 
+    public override int GetHashCode()
+    {
+        return Title.GetHashCode() + Date.GetHashCode();
+    }
+
+    public override bool Equals(object? obj)
+    {
+        return obj is Event other && Title == other.Title && Date == other.Date;
+    }
+
     private bool IsEventOver()
     {
         return Date < DateTime.Now;
